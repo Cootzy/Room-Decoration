@@ -2,15 +2,33 @@ import Navbar from "components/Navbar";
 import type { Route } from "./+types/home";
 import { ArrowRight, ArrowUpRight, Clock, Layers } from "lucide-react";
 import Button from "components/ui/Button";
+import Upload from "components/Upload";
+import { useNavigate } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: "New React Router App" },
-		{ name: "description", content: "Welcome to React Router!" },
+		{ title: "Roomify - AI-First Room Design" },
+		{
+			name: "description",
+			content: "Build beautiful spaces at the speed of thought with Roomify",
+		},
 	];
 }
 
 export default function Home() {
+	const navigate = useNavigate();
+
+	const handleUploadComplete = (base64Data: string, fileName: string) => {
+		console.log("Upload completed!");
+		console.log("File name:", fileName);
+		console.log("Base64 data:", base64Data);
+		console.log("Base64 length:", base64Data.length);
+
+		// Generate new ID and navigate to visualizer
+		const newId = Date.now().toString();
+		navigate(`/visualizer/${newId}`);
+	};
+
 	return (
 		<div className="home">
 			<Navbar />
@@ -23,11 +41,11 @@ export default function Home() {
 					<p>Introducing Roomify 2.0</p>
 				</div>
 
-				<h1>Build beautiful spaces at the speed of thought with Roomify</h1>
+				<h1>Design stunning rooms in seconds with AI-powered Roomify</h1>
 
 				<p className="subtitle">
-					Roomify is an AI-first design environment that helps you visualize,
-					render, and ship architectural projects faster than ever.
+					An intelligent design platform that transforms your ideas into
+					visualized, rendered architectural projects in record time.
 				</p>
 
 				<div className="actions">
@@ -53,7 +71,7 @@ export default function Home() {
 							<p>Support JPG, PNG, formats up to 10MB</p>
 						</div>
 
-						<p>Upload images</p>
+						<Upload onComplete={handleUploadComplete} />
 					</div>
 				</div>
 			</section>
